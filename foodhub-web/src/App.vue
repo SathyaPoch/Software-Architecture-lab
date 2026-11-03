@@ -31,13 +31,12 @@ onMounted(loadRestaurants);
 
 <template>
   <div>
-  <h1>FoodHub</h1>
-  <ul>
-    <li v-for="r in restaurants" :key="r.id">{{ r.name }} ({{ r.area }})</li>
-  </ul>
-  <button @click="login">Log in as dara</button>
-  <button @click="whoAmI">Who am I?</button>
-  <p>{{ message }}</p>
+    <h1>FoodHub</h1>
+    <ul>
+      <li v-for="r in restaurants" :key="r.id">{{ r.name }} ({{ r.area }})</li>
+    </ul>
+    <button @click="login">Log in as dara</button>
+    <button @click="whoAmI">Who am I?</button>
+    <p>{{ message }}</p>
   </div>
-
 </template>

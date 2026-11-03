@@ -7,7 +7,7 @@ import {
   Post,
   Get,
   Res,
-  Patch, 
+  Patch,
   Param,
 } from '@nestjs/common';
 import type { Response } from 'express';
@@ -41,27 +41,23 @@ export class OrdersController {
     if (key) IDEMPOTENCY.set(key, order.id);
     return order;
   }
+  @Get(':id')
+  getOrder(@Param('id') id: string) {
+    const order = ORDERS.get(id);
 
-  @Get('/:id')
-  @HttpCode(200)
-  getOrder(
-    @Param() params: any,
-    @Headers('idempotency-key') key: string | undefined,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    return ORDERS.get(params.id);
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+
+    return order;
   }
-  @Patch(':id') 
-  updateOrder(
-     @Param() params: any,
-     @Body() body: UpdateOrderDto, 
-  ){
-   console.log(params);
-   console.log(body);
-   const updatedOrder = ORDERS.get(params.id)
-   if (!updatedOrder) throw new Error('Order not found ')
-   updatedOrder['status'] = body.status
-   ORDERS.set(params.id , updatedOrder);
-   return updatedOrder; 
+  @Patch(':id')
+  updateOrder(@Param('id') id: string, @Body() body: UpdateOrderDto) {
+    console.log(body);
+    const updatedOrder = ORDERS.get(id);
+    if (!updatedOrder) throw new Error('Order not found ');
+    updatedOrder['status'] = body.status;
+    ORDERS.set(id, updatedOrder);
+    return updatedOrder;
   }
 }
